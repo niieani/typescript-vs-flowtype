@@ -1,6 +1,7 @@
-# Typescript vs Flow
+# TypeScript vs Flow
 
-Differences between Flowtype and TypeScript 2.1 -- syntax, usage and usability
+Both TypeScript and Flow are very similar products and even about 90% of their syntax is the same.
+In this document I've tried to compile the differences between Flowtype and TypeScript 2.1 -- syntax, usage and usability.
 
 ## Disclamer
 
