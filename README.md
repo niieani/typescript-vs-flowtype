@@ -69,6 +69,24 @@ let a: string?
 let a: string | null | undefined
 ```
 
+## type casting
+
+### Flow
+
+```js
+(1 + 1 : number);
+```
+
+### TypeScript
+
+```ts
+(1 + 1) as number;
+
+// OR (old version, not recommended):
+
+<number> (1 + 1);
+```
+
 ## mapping dynamic module names
 
 ### Flow
