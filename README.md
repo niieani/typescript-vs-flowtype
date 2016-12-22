@@ -309,7 +309,7 @@ function getLength(o: {+p: ?string}): number {
 }
 ```
 
-(TypeScript proposal)[https://github.com/Microsoft/TypeScript/issues/10717]
+[TypeScript proposal](https://github.com/Microsoft/TypeScript/issues/10717)
 
 ## Useful References
 
