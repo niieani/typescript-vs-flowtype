@@ -18,8 +18,9 @@ I'm open to contributions and comments.
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | great (TS @ 2.0) | great |
 | typings for public libraries | plenty of well mainained typings | a handful of mostly incomplete typings |
-| unique features | autocomplete for object construction, huge library of mainained Typings, `readonly` properties, `never` type, namespacing | variance, existential types `*`, testing all potential code-paths when typings not declared for maximum inference, `$Diff<A, B>` type |
-| ecosystem flexibility | no extensions as of yet | no extensions as of yet |
+| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing binding)</li><li>large library of mainained typings</li><li>more flexible type mapping via iteration</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
+| ecosystem flexibility | work in progress | no extensions |
+| programmatic hooking | architecture prepared, work in progress | work in progress |
 
 # Differences in syntax
 
@@ -122,28 +123,32 @@ declare module "*.css" {
 
 ## Exact/Partial Object Types
 
-By default objects in Flow are not strict (exact), whereas in TypeScript they are always strict, unless set as partial.
+By default objects in Flow are not exact (can contain more properties than declared), whereas in TypeScript they are always exact (must contain only declared properties).
 
 ### Flow
 
 When using flow, `{ name: string }` only means “an object with **at least** a name property”.
 
 ```js
-type StrictUser = {| name: string, age: number |};
+type ExactUser = {| name: string, age: number |};
 type User = { name: string, age: number };
-type PartialUser = $Shape<User>;
+type OptionalUser = $Shape<User>; // all properties become optional
 ```
 
 ### TypeScript
 
+TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. You will be allowed to use custom properties, but will have to access them through the bracket access syntax, i.e. UserInstance['someProperty']. At the moment, you cannot define "open" (non-exact) types using TypeScript. This is mostly a design decision as it forces you to write the typings upfront.
+
 ```js
-type StrictUser = { name: string, age: number };
-type PartialUser = Partial<{ name: string, age: number }>;
+type ExactUser = { name: string, age: number };
+type User = { name: string, age: number, [otherProperty: any] };
+type OptionalUser = Partial<{ name: string, age: number }>; // all properties become optional
 ```
 
 ### Reference
 
 - https://flowtype.org/docs/objects.html
+- https://github.com/Microsoft/TypeScript/issues/2710
 
 ## Importing types
 
@@ -194,7 +199,10 @@ var props = {
   baz: 'three',
 }
 
-function getProp<T>(key: $Enum<typeof props>): T {
+type PropsType = typeof props;
+type KeysOfProps = $Enum<PropsType>;
+
+function getProp<T>(key: KeysOfProps): T {
   return props[key]
 }
 ```
@@ -209,29 +217,120 @@ var props = {
 }
 
 type PropsType = typeof props
+type KeysOfProps = keyof PropsType;
 
-function getProp<K extends keyof PropsType>(key: K): PropsType[K] {
+function getProp<T>(key: KeysOfProps): T {
   return props[key]
 }
 ```
 
-## Mapped Types
-
-TODO: use an example which does the same
+## Records
 
 ### Flow
 
 ```js
-type ExtractCodomain = <V>(v: () => V) => V;
-function f<O>(o: O): $ObjMap<O, ExtractCodomain>;
+type $Record<T, U> = {[key: $Enum<T>]: U}
+type SomeRecord = $Record<{ a: number }, string>
 ```
 
 ### TypeScript
 
 ```ts
-type Partial<T> = {
-  [P in keyof T]?: T[P];
+type SomeRecord = Record<{ a: number }, string>
+```
+
+## Lookup Types
+
+### Flow
+
+```js
+type A = {
+  thing: string
+}
+
+type lookedUpThing = $PropertyType<A, 'thing'>
+```
+
+### TypeScript
+
+```ts
+type A = {
+  thing: string
+}
+
+type lookedUpThing = typeof A['thing']
+```
+
+## Mapped Types / Foreach Property
+
+### Flow
+
+```js
+type InputType = { hello: string };
+type MappedType = $ObjMap<InputType, number>;
+```
+
+### TypeScript
+
+A bit more flexibility here, as you have access to each individual key name and can combine with Lookup types and even do simple transformations.
+
+```ts
+type InputType = { hello: string };
+type MappedType = {
+  [P in keyof InputType]: number;
 };
+```
+
+## Read-only Types
+
+### Flow
+
+```js
+type A = {
+  +b: string
+}
+
+let a: A = { b: 'something' }
+a.b = 'something-else'; // ERROR
+a = { b: 'something-else' } // ERROR: reassignment is NOT allowed in Flow
+```
+
+### TypeScript
+
+```ts
+type A = {
+  readonly b: string
+}
+
+let a: A = { b: 'something' }
+a.b = 'something-else'; // ERROR
+a = { b: 'something-else' } // OK: reassignment is alowed in TypeScript
+```
+
+## "Impossible flow" type
+
+### Flow
+
+`empty`
+
+```js
+function returnsImpossible() {
+  throw new Error();
+}
+
+// type of returnsImpossible() is 'empty'
+```
+
+### TypeScript
+
+`never`
+
+```ts
+function returnsImpossible() {
+  throw new Error();
+}
+
+// type of returnsImpossible() is 'never'
 ```
 
 # Same syntax
@@ -246,19 +345,28 @@ Most of the syntax of Flow and TypeScript is the same. TypeScript is more expres
 function(a?: string) {}
 ```
 
-## Flow's "mixed" type
+# TypeScript-only concepts
 
-Flow's `mixed` type is simply a union of all the basic types (string, number, boolean) without their Object versions.
-
-The TypeScript equivalent should be:
+## Declarable arbitrary `this` in functions (outside of objects)
 
 ```ts
-type mixed = string | number | boolean
+function something(this: { hello: string }, firstArg: string) {
+  return this.hello + firstArg;
+}
 ```
 
-Reference: https://flowtype.org/docs/quick-reference.html#mixed
+## Private and Public properties in classes
 
-# TypeScript-only concepts
+```ts
+class SomeClass {
+  constructor(public prop: string, private prop2: string) {
+    // transpiles to:
+    // this.prop = prop;
+    // this.prop2 = prop2;
+  }
+  private prop3: string;
+}
+```
 
 ## [Non-null assertion operator](https://github.com/Microsoft/TypeScript/pull/7140)
 
@@ -267,34 +375,13 @@ Add `!` to signify we know an object is non-null.
 ```ts
 // Compiled with --strictNullChecks
 function validateEntity(e: Entity?) {
-    // Throw exception if e is null or invalid entity
+  // Throw exception if e is null or invalid entity
 }
 
 function processEntity(e: Entity?) {
-    validateEntity(e);
-    let s = e!.name;  // Assert that e is non-null and access name
+  validateEntity(e);
+  let s = e!.name;  // Assert that e is non-null and access name
 }
-```
-
-## Lookup Types
-
-```ts
-type A = {
-  thing: string
-}
-
-type lookedUpThing = typeof A['thing']
-```
-
-## Read-only Types
-
-```ts
-type A = {
-  readonly b: string
-}
-
-let a: A = { b: 'something' }
-a.b = 'something-else'; // ERROR
 ```
 
 # Flow-only concepts
@@ -306,17 +393,21 @@ type C = $Diff<{ a: string, b: number }, { a: string }>
 // C is { b: number}
 ```
 
-TypeScript has a proposal for this (needs link).
+TypeScript has a [proposal](https://github.com/Microsoft/TypeScript/issues/12215) for an equivalent.
 
-## Inferred generics / existential types
+## `$Subtype<T>`
 
-`*` as a generic parameter tries to infer the type if possible
+In TypeScript, structural types are always subtypes of themselves, so there is no need for such a concept.
+
+## Inferred existential types
+
+`*` as a type or a generic parameter signifies to the type-checker to infer the type if possible
 
 ```js
 Array<*>
 ```
 
-TypeScript has a proposal for this (needs link).
+TypeScript has a proposal for an equivalent (needs link).
 
 ## Variance
 
@@ -329,6 +420,20 @@ function getLength(o: {+p: ?string}): number {
 ```
 
 [TypeScript proposal](https://github.com/Microsoft/TypeScript/issues/10717)
+
+## Flow's "mixed" type
+
+NOTE: This is probably incorrect (#1). Open to PRs with corrections.
+
+Flow's `mixed` type is simply a union of all the basic types (string, number, boolean) without their Object versions.
+
+The TypeScript polyfill/equivalent should be:
+
+```ts
+type mixed = string | number | boolean
+```
+
+Reference: https://flowtype.org/docs/quick-reference.html#mixed
 
 ## Useful References
 
