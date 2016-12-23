@@ -122,7 +122,7 @@ declare module "*.css" {
 
 ## Exact/Partial Object Types
 
-By default objects in flow are not strict, whereas in TypeScript they are always strict, unless set as partial.
+By default objects in Flow are not strict (exact), whereas in TypeScript they are always strict, unless set as partial.
 
 ### Flow
 
