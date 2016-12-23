@@ -168,12 +168,12 @@ import {UserID, User} from "./User.js";
 
 ## typeof
 
-Works the same with the addition in flow of directly importing a typeof:
+Works the same in both cases, however Flow has an additional syntax to directly import a `typeof`:
 
 ### Flow
 
 ```js
-import typeof {jimiguitar as GuitarT} from "./User.js";
+import typeof {jimiguitar as GuitarT} from "./User";
 
 // OR (below also works in TypeScript)
 
@@ -184,8 +184,26 @@ type GuitarT = typeof jimiguitar;
 ### TypeScript
 
 ```ts
-import {jimiguitar} from "./User.js";
+import {jimiguitar} from "./User";
 type GuitarT = typeof jimiguitar;
+```
+
+## Accessing the type of a Class
+
+### Flow
+
+```js
+class Test {};
+type TestType = Class<Test>;
+// This should be equivalent to (if you can confirm, please send a PR):
+type TestType = typeof Test;
+```
+
+### TypeScript
+
+```ts
+class Test {};
+type TestType = typeof Test;
 ```
 
 ## Keys/Props Of Type
