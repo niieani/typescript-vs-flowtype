@@ -48,14 +48,14 @@ function fooGood<T extends { x: number }>(obj: T): T {
 
 https://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
 
-## nullable type
+## maybe & nullable type
 
 ### Flow
 
 ```js
 let a: ?string
 
-// or:
+// equvalent to:
 
 let a: string | null | void
 ```
@@ -63,11 +63,15 @@ let a: string | null | void
 ### TypeScript
 
 ```ts
-let a: string?
-
-// or:
-
 let a: string | null | undefined
+```
+
+Optional parameters implicitly add `undefined`:
+
+```ts
+function f(x?: number) { }
+// same as:
+function f(x?: number | undefined) { }
 ```
 
 ## type casting
@@ -141,7 +145,7 @@ TypeScript is more strict here, in that if you want to use a property which is n
 
 ```js
 type ExactUser = { name: string, age: number };
-type User = { name: string, age: number, [otherProperty: any] };
+type User = { name: string, age: number, [otherProperty: string]: any };
 type OptionalUser = Partial<{ name: string, age: number }>; // all properties become optional
 ```
 
@@ -276,7 +280,7 @@ type A = {
   thing: string
 }
 
-type lookedUpThing = typeof A['thing']
+type lookedUpThing = A['thing']
 ```
 
 ## Mapped Types / Foreach Property
