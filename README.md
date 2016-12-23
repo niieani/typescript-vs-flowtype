@@ -18,7 +18,7 @@ I'm open to contributions and comments.
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | great (since TS @ 2.0) | great |
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
-| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>[type spread operator](https://github.com/Microsoft/TypeScript/pull/11150)</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
+| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li><li>[type spread operator](https://github.com/Microsoft/TypeScript/pull/11150) (not yet released)</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 
