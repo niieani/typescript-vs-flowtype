@@ -18,7 +18,7 @@ I'm open to contributions and comments.
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | great (TS @ 2.0) | great |
 | typings for public libraries | plenty of well mainained typings | a handful of mostly incomplete typings |
-| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing binding)</li><li>large library of mainained typings</li><li>more flexible type mapping via iteration</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
+| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `func.bind()`)</li><li>large library of mainained typings</li><li>more flexible type mapping via iteration</li><li>type spread operator</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | ecosystem flexibility | work in progress | no extensions |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 
