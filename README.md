@@ -14,12 +14,12 @@ I'm open to contributions and comments.
 |---|------------------|--------|
 | IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs do hacky workarounds to run real-time |
 | speed | real-time                  | good       |
-| autocomplete | both during declaration and usage | only for usage |
+| autocomplete | both during declaration and usage | [only for usage](https://github.com/facebook/flow/issues/3074) |
 | expressiveness | great (since TS @ 2.1) | great |
-| type safety | great (TS @ 2.0) | great |
-| typings for public libraries | plenty of well mainained typings | a handful of mostly incomplete typings |
-| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `func.bind()`)</li><li>large library of mainained typings</li><li>more flexible type mapping via iteration</li><li>type spread operator</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
-| ecosystem flexibility | work in progress | no extensions |
+| type safety | great (since TS @ 2.0) | great |
+| typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
+| unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>[type spread operator](https://github.com/Microsoft/TypeScript/pull/11150)</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
+| ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 
 # Differences in syntax
@@ -441,7 +441,7 @@ function getLength(o: {+p: ?string}): number {
 
 ## Flow's "mixed" type
 
-NOTE: This is probably incorrect (#1). Open to PRs with corrections.
+NOTE: This is probably incorrect ([#1](https://github.com/niieani/typescript-vs-flowtype/issues/1)). Open to PRs with corrections.
 
 Flow's `mixed` type is simply a union of all the basic types (string, number, boolean) without their Object versions.
 
