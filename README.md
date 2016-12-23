@@ -21,6 +21,8 @@ I'm open to contributions and comments.
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li><li>[type spread operator](https://github.com/Microsoft/TypeScript/pull/11150) (not yet released)</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
+| documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | incomplete and often vague docs |
+| commercial support | no | no |
 
 # Differences in syntax
 
@@ -289,8 +291,13 @@ type lookedUpThing = A['thing']
 
 ```js
 type InputType = { hello: string };
-type MappedType = $ObjMap<InputType, number>;
+type MappedType = $ObjMap<InputType, ()=>number>;
 ```
+
+Reference:
+
+- https://gist.github.com/gabro/bb83ed574690645053b815da2082b937
+- https://twitter.com/andreypopp/status/782192355206135808
 
 ### TypeScript
 
@@ -314,7 +321,6 @@ type A = {
 
 let a: A = { b: 'something' }
 a.b = 'something-else'; // ERROR
-a = { b: 'something-else' } // ERROR: reassignment is NOT allowed in Flow
 ```
 
 ### TypeScript
@@ -326,8 +332,9 @@ type A = {
 
 let a: A = { b: 'something' }
 a.b = 'something-else'; // ERROR
-a = { b: 'something-else' } // OK: reassignment is alowed in TypeScript
 ```
+
+One caveat that makes TypeScript's `readonly` less safe is that the same `non-readonly` property in a type is compatible with a `readonly` property. This essentially means that you can pass an object with `readonly` properties to a function which expects non-readonly properties and TypeScript will *not* throw errors: [example](https://www.typescriptlang.org/play/index.html#src=%0D%0Afunction%20test(x%3A%20%7B%20foo%3A%20string%20%7D)%20%7B%20%0D%0A%20%20%20%20x.foo%20%3D%20'bar'%3B%0D%0A%7D%0D%0A%0D%0Aconst%20x%3A%20%7B%20readonly%20foo%3A%20string%20%7D%20%3D%20%7B%20foo%3A%20'baz'%20%7D%3B%0D%0A%0D%0Atest(x)%3B).
 
 ## "Impossible flow" type
 
@@ -417,10 +424,6 @@ type C = $Diff<{ a: string, b: number }, { a: string }>
 
 TypeScript has a [proposal](https://github.com/Microsoft/TypeScript/issues/12215) for an equivalent.
 
-## `$Subtype<T>`
-
-In TypeScript, structural types are always subtypes of themselves, so there is no need for such a concept.
-
 ## Inferred existential types
 
 `*` as a type or a generic parameter signifies to the type-checker to infer the type if possible
@@ -445,14 +448,10 @@ function getLength(o: {+p: ?string}): number {
 
 ## Flow's "mixed" type
 
-NOTE: This is probably incorrect ([#1](https://github.com/niieani/typescript-vs-flowtype/issues/1)). Open to PRs with corrections.
-
-Flow's `mixed` type is simply a union of all the basic types (string, number, boolean) without their Object versions.
-
-The TypeScript polyfill/equivalent should be:
+The TypeScript equivalent of the `mixed` type is simply:
 
 ```ts
-type mixed = string | number | boolean
+type mixed = {}
 ```
 
 Reference: https://flowtype.org/docs/quick-reference.html#mixed
