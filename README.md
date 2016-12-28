@@ -23,6 +23,7 @@ I'm open to contributions and comments.
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 | documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | incomplete and often vague docs |
 | commercial support | no | no |
+| readability of errors | good | good in most, vague in some cases |
 
 # Differences in syntax
 
