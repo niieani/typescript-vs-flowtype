@@ -93,7 +93,7 @@ let a: string | null | void
 let a: string | null | undefined
 ```
 
-Optional parameters implicitly add `undefined`:
+Optional parameters (implicitly add `undefined`)[https://github.com/Microsoft/TypeScript/issues/13195]:
 
 ```ts
 function f(x?: number) { }
