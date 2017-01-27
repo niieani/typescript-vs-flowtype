@@ -17,6 +17,8 @@ I'm open to contributions and comments.
 | autocomplete | both during declaration and usage | [only for usage](https://github.com/facebook/flow/issues/3074) |
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | very good (7 / 10) (since TS @ 2.0) | great (8 / 10) |
+| specifying generic parameters with functions | yes | no |
+| specifying generic parameters with classes | yes | yes |
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li><li>[type spread operator](https://github.com/Microsoft/TypeScript/pull/11150) (not yet released)</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
@@ -26,6 +28,28 @@ I'm open to contributions and comments.
 | readability of errors | good | good in most, vague in some cases |
 
 # Differences in syntax
+
+## generic parameters in functions
+
+### Flow
+
+In Flow it is possible to create generic functions, but only if one of the parameters or its return type is inferrable to the desired type. 
+
+### TypeScript
+
+In TypeScript, you can create more complex behaviors, like this:
+
+```ts
+function makeTgenerator<T>() {
+  return function(next : () => T) {
+    const something = next();
+    return something;
+  }
+}
+
+const usage = makeTgenerator<string>()
+// 'usage' is of type: (next: () => string) => string
+```
 
 ## bounded polymorphism
 
