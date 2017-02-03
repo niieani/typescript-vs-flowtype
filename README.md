@@ -168,7 +168,7 @@ type OptionalUser = $Shape<User>; // all properties become optional
 
 ### TypeScript
 
-TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. You will be allowed to use custom properties, but will have to access them through the bracket access syntax, i.e. UserInstance['someProperty']. At the moment, you cannot define "open" (non-exact) types using TypeScript. This is mostly a design decision as it forces you to write the typings upfront.
+TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. You will be allowed to use not-explicitly defined properties ~but will have to access them through the bracket access syntax, i.e. UserInstance['someProperty']. At the moment, you cannot define "open" (non-exact) types using TypeScript.~ UPDATE: Possible to use [dotted syntax](https://github.com/Microsoft/TypeScript/pull/12671) since TypeScript 2.2. This is mostly a design decision as it forces you to write the typings upfront.
 
 ```js
 type ExactUser = { name: string, age: number };
