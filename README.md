@@ -471,6 +471,8 @@ function getLength(o: {+p: ?string}): number {
 
 [TypeScript proposal](https://github.com/Microsoft/TypeScript/issues/10717)
 
+Bivariance is among [the design decisions](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant) driving TypeScript.
+
 ## Flow's "mixed" type
 
 The TypeScript equivalent of the `mixed` type is simply:
