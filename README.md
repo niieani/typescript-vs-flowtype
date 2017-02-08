@@ -12,44 +12,22 @@ I'm open to contributions and comments.
 
 |   | TypeScript            | Flow |
 |---|------------------|--------|
-| IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs do hacky workarounds to run real-time |
+| IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs have workarounds to run real-time |
 | speed | real-time                  | good       |
 | autocomplete | both during declaration and usage | [only for usage](https://github.com/facebook/flow/issues/3074) |
 | expressiveness | great (since TS @ 2.1) | great |
-| type safety | very good (7 / 10) (since TS @ 2.0) | great (8 / 10) |
+| type safety | very good (7 / 10) | great (8 / 10) |
 | specifying generic parameters during call-time | yes [e.g.](http://www.typescriptlang.org/play/#src=function%20someFactory%3CT%3E()%20%7B%0D%0A%20%20return%20class%20%7B%0D%0A%20%20%20%20method(someParam%20%3A%20T)%20%7B%0D%0A%20%20%20%20%20%20%0D%0A%20%20%20%20%7D%0D%0A%20%20%7D%0D%0A%7D%0D%0A%0D%0A%2F%2F%20how%20to%20invoke%20this%20factory%20with%20a%20defined%20%3CT%3E%3F%0D%0A%0D%0Aconst%20SomeClass%20%3D%20someFactory%3C%7B%20whatever%3A%20string%20%7D%3E()%0D%0Aconst%20someInstance%20%3D%20new%20SomeClass()%0D%0AsomeInstance.method('will-error-here')%0D%0A) | no |
 | specifying generic parameters for type definitions | yes | yes |
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li><li>[type spread operator](https://github.com/Microsoft/TypeScript/pull/11150) (not yet released)</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
-| documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | incomplete and often vague docs |
+| documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | incomplete, often vague docs |
 | commercial support | no | no |
-| readability of errors | good | good in most, vague in some cases |
+| error quality | good | good in some, vague in other cases |
 
 # Differences in syntax
-
-## generic parameters in functions
-
-### Flow
-
-In Flow it is possible to create generic functions, but only if one of the parameters or its return type is inferrable to the desired type. 
-
-### TypeScript
-
-In TypeScript, you can create more complex behaviors, like this:
-
-```ts
-function makeTgenerator<T>() {
-  return function(next : () => T) {
-    const something = next();
-    return something;
-  }
-}
-
-const usage = makeTgenerator<string>()
-// 'usage' is of type: (next: () => string) => string
-```
 
 ## bounded polymorphism
 
@@ -168,7 +146,7 @@ type OptionalUser = $Shape<User>; // all properties become optional
 
 ### TypeScript
 
-TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. You will be allowed to use not-explicitly defined properties ~but will have to access them through the bracket access syntax, i.e. UserInstance['someProperty']. At the moment, you cannot define "open" (non-exact) types using TypeScript.~ UPDATE: Possible to use [dotted syntax](https://github.com/Microsoft/TypeScript/pull/12671) since TypeScript 2.2. This is mostly a design decision as it forces you to write the typings upfront.
+TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. You will be allowed to use not-explicitly defined properties ~~but will have to access them through the bracket access syntax, i.e. UserInstance['someProperty']. At the moment, you cannot define "open" (non-exact) types using TypeScript.~~ UPDATE: Possible to use [dotted syntax](https://github.com/Microsoft/TypeScript/pull/12671) since TypeScript 2.2. This is mostly a design decision as it forces you to write the typings upfront.
 
 ```js
 type ExactUser = { name: string, age: number };
@@ -400,6 +378,26 @@ function(a?: string) {}
 ```
 
 # TypeScript-only concepts
+
+## call-time generic parameters
+
+In TypeScript, you can create more complex behaviors, like this:
+
+```ts
+function makeTgenerator<T>() {
+  return function(next : () => T) {
+    const something = next();
+    return something;
+  }
+}
+
+const usage = makeTgenerator<string>()
+// 'usage' is of type: (next: () => string) => string
+```
+
+#### Flow
+
+In Flow it is possible to define generic functions similarly to the above example, but only if one of the parameters or its return type is inferrable to the desired generic type, i.e. you cannot call any method/constructor using a custom `T`.
 
 ## Declarable arbitrary `this` in functions (outside of objects)
 
