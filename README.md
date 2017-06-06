@@ -12,6 +12,7 @@ I'm open to contributions and comments.
 
 |   | TypeScript            | Flow |
 |---|------------------|--------|
+| Leading Design Goal / North Star | Quickly identify errors in programs | Enforce type safety |
 | IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs have workarounds to run real-time |
 | speed | real-time                  | good       |
 | autocomplete | both during declaration and usage | [only for usage](https://github.com/facebook/flow/issues/3074) |
