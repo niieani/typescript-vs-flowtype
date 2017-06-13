@@ -282,13 +282,29 @@ type lookedUpThing = $PropertyType<A, 'thing'>
 
 ### TypeScript
 
+More powerful here, as the property does not need to be a string constant.
+
 ```ts
 type A = {
   thing: string
 }
 
 type lookedUpThing = A['thing']
+
+// and...
+
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];  // Inferred type is T[K]
+}
+
+function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
+    obj[key] = value;
+}
 ```
+
+Reference:
+- https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
+- https://github.com/facebook/flow/issues/2310
 
 ## Mapped Types / Foreach Property
 
