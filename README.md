@@ -277,12 +277,24 @@ type A = {
   thing: string
 }
 
+// when the property is a string contant use $PropertyType (i.e. you know it when typing)
 type lookedUpThing = $PropertyType<A, 'thing'>
+
+// when you want the property to be dynamic use $ElementType (since Flow 0.49)
+function getProperty<T : Object, Key : string>(obj: T, key: Key): $ElementType<T, Key> {
+    return obj[key];
+}
 ```
+
+Reference:
+- https://github.com/facebook/flow/pull/2952#issuecomment-308248000
+- https://github.com/facebook/flow/commit/968210c5887b5bdd47d17167300033d1e1077d1a
+- https://github.com/facebook/flow/issues/2464#issuecomment-308536540
+- [flow/try](https://flow.org/try/#0MYGwhgzhAEBKCmwD2AnAJgHgLLwLYCN4UIAuaAeXwCtEAXAPmgG8AoaaNMWsMnAoiAG4WbaMgB2EWigCuwWqgAUnbrzyFiASmaj2tABYBLCADoVYaAF4OXMMPYBfUaIDm8WhgDS8AJ5kpKIbiLvSKANZk3j6aZAAkAKIgePDitAAqPgAO8NjqAgA00FGMrOxl0CjuMiji0AbGZrYA2mEAuvbQTk4itFnw0GlGwVY67DzQ4jL8KPmi+P7SQS6zThJSYkiS0nIKKABiYIYg1fBkCMjoGINLjNbi8ADucIioaIpM4wCMDtoA9L-QIgoVDQFhrWgVM4vS7XYK3CaPZ4XN4fMifQrzaAAcgAZkgkFifsIWIoUCY3LRFFiwFiYtAAktNIJoP9AShgSgSWSKVSaXTJtMmVzye4qfhaWQBRomSyAUDUMKeVjxXSGcEZSIcTJxPJDJtoBSAArA7IoXpXMiUGjyQpRBaBOGKJDUMhpQoRIq+OkJJK4FLpPpXW2+Eq6CpVGrQZ1UFrtFjdRRGk1EXrvTanaDfQpY9MSiZTaVAA)
 
 ### TypeScript
 
-More powerful here, as the property does not need to be a string constant.
+Arguably, it's a bit easier to type both cases in TS, since they follow the same pattern.
 
 ```ts
 type A = {
