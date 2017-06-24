@@ -53,7 +53,7 @@ function fooGood<T extends { x: number }>(obj: T): T {
 
 ### Reference
 
-https://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
+https://flow.org/blog/2015/03/12/Bounded-Polymorphism/
 
 ## maybe & nullable type
 
@@ -130,7 +130,7 @@ declare module "*.css" {
 ### Reference
 
 - https://www.typescriptlang.org/docs/handbook/modules.html
-- https://flowtype.org/docs/modules.html
+- https://flow.org/en/docs/types/modules/
 
 ## Exact/Partial Object Types
 
@@ -158,7 +158,7 @@ type OptionalUser = Partial<{ name: string, age: number }>; // all properties be
 
 ### Reference
 
-- https://flowtype.org/docs/objects.html
+- https://flow.org/en/docs/types/objects/
 - https://github.com/Microsoft/TypeScript/issues/2710
 
 ## Importing types
@@ -495,7 +495,7 @@ TypeScript has a proposal for an equivalent (needs link).
 
 ## Variance
 
-https://flowtype.org/docs/variance.html
+https://flow.org/en/docs/lang/variance/
 
 ```js
 function getLength(o: {+p: ?string}): number {
@@ -515,7 +515,7 @@ The TypeScript equivalent of the `mixed` type is simply:
 type mixed = {}
 ```
 
-Reference: https://flowtype.org/docs/quick-reference.html#mixed
+Reference: https://flow.org/en/docs/types/mixed/
 
 ## Useful References
 
