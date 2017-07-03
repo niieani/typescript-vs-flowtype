@@ -14,7 +14,7 @@ I'm open to contributions and comments.
 |---|------------------|--------|
 | Leading Design Goal / North Star | identify errors in programs through [a balance between correctness and productivity](https://github.com/Microsoft/TypeScript/wiki/TypeScript-Design-Goals) | enforce type soundness / safety |
 | IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs have workarounds to run real-time |
-| speed | real-time                  | good       |
+| speed | real-time, and continues to be fast regardless of the size of the project                  | satisfactory, but can get slower and slower with the project size       |
 | autocomplete | both during declaration and usage | [only for usage](https://github.com/facebook/flow/issues/3074) |
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | very good (7 / 10) | great (8 / 10) |
