@@ -26,8 +26,9 @@ I'm open to contributions and comments.
 | ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 | documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | <ul><li>incomplete, often vague docs</li><ul> |
-| commercial support | no | no |
 | error quality | good | good in some, vague in other cases |
+| transparency | meeting notes, leadership reasoning and roadmap happens mostly publicly | low transparency, roadmap developed behind closed doors |
+| commercial support | no | no |
 
 # Differences in syntax
 
@@ -317,6 +318,41 @@ function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
 Reference:
 - https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
 - https://github.com/facebook/flow/issues/2310
+
+## Type-narrowing functions
+
+### Flow
+
+Note: undocumented syntax, may change:
+
+```js
+function isNil(value: mixed): boolean %checks {
+  return value == null;
+}
+
+const thing = null;
+
+if (!isNil(thing)) {
+  const another = thing.something;
+}
+```
+
+https://flow.org/try/#0PQKgBAAgZgNg9gdzCYAoVxhngEwIYDOAFsAJYEBypMYUArgHYDGALqXA6vc2x2OVRgAKAG54YdAKYAuMAFtSAD0k4AlLIBGcODEl4GYAKRMikpgGsCYAN6owYAE6SWdBwbETJYALzewDOhgYAG5UAF90Jg4CFjAWIlIGAHMff0CQ9FIoMCEAQgFqIXjEpNVVGzswKIYYsH04eMkHVOLkgDoCODlnBOTQiKA
+
+### TypeScript
+
+```ts
+function isNil<T>(value: T | null): value is null {
+  return value == null;
+}
+
+const thing: any = null;
+
+if (!isNil(thing)) {
+  const another = thing.something;
+}
+```
+
 
 ## Mapped Types / Foreach Property
 
