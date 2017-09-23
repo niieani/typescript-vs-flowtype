@@ -23,7 +23,7 @@ I'm open to contributions and comments.
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | type spread operator | [work in progress](https://github.com/Microsoft/TypeScript/pull/13470) | [shipped](https://github.com/facebook/flow/commit/ad443dc92879ae21705d4c61b942ba2f8ad61e4d) >=0.42 |
-| ecosystem flexibility | [work in progress](https://github.com/Microsoft/TypeScript/issues/6508) | no extensions |
+| userland plugins | [basic](https://github.com/Microsoft/TypeScript/issues/6508), not effecting emitting yet (planned) | no |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 | documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | <ul><li>incomplete, often vague docs</li><ul> |
 | error quality | good | good in some, vague in other cases |
@@ -149,7 +149,7 @@ type OptionalUser = $Shape<User>; // all properties become optional
 
 ### TypeScript
 
-TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. You will be allowed to use not-explicitly defined properties ~~but will have to access them through the bracket access syntax, i.e. UserInstance['someProperty']. At the moment, you cannot define "open" (non-exact) types using TypeScript.~~ UPDATE: Possible to use [dotted syntax](https://github.com/Microsoft/TypeScript/pull/12671) since TypeScript 2.2. This is mostly a design decision as it forces you to write the typings upfront.
+TypeScript is more strict here, in that if you want to use a property which is not declared, you must explicitly say so by defining the indexed property. It is possible to use [dotted syntax](https://github.com/Microsoft/TypeScript/pull/12671) to access indexed properties since TypeScript 2.2. This is mostly a design decision as it forces you to write the typings upfront.
 
 ```js
 type ExactUser = { name: string, age: number };
@@ -353,6 +353,25 @@ if (!isNil(thing)) {
 }
 ```
 
+## Getting the type of a function call return value
+
+### Flow
+
+`$Call` utility type:
+
+```js
+type Fn1 = <T>(T) => T;
+type E = $Call<Fn1, number>;
+
+declare var e: E; // E is number
+(42: E); // OK
+```
+
+Reference: https://github.com/facebook/flow/commit/ac7d9ac68acc555973d495f0a3f1f97758eeedb4
+
+### TypeScript
+
+[Work in progress](https://github.com/Microsoft/TypeScript/issues/6606).
 
 ## Mapped Types / Foreach Property
 
