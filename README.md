@@ -14,7 +14,7 @@ I'm open to contributions and comments.
 |---|------------------|--------|
 | Leading Design Goal / North Star | identify errors in programs through [a balance between correctness and productivity](https://github.com/Microsoft/TypeScript/wiki/TypeScript-Design-Goals) | enforce type soundness / safety |
 | IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs have workarounds to run real-time |
-| type-checking speed (w/o transpilation, *subjective, need benchmarks!*) | speed does not degrade much as the project grows | speed degrades with each additional file |
+| type-checking speed (w/o transpilation, *subjective, need benchmarks!*) | speed does not degrade much as the project grows | [speed degrades with each additional file <img width="439" alt="numberOfFiles · O( (LoCperFile + SizeOfTypesOfExports) ^ k )" src="https://user-images.githubusercontent.com/563469/31196357-c02ca3e4-a94d-11e7-9292-f92e10091ac7.png"> ](https://youtu.be/WgvAPzOmiP0?t=616) |
 | autocomplete | <ul><li>both during declaration and usage</li><li>feels instantaneous</li><li>feels reliable</li></ul> | <ul><li>[only for usage](https://github.com/facebook/flow/issues/3074)</li><li>feels sluggish (often a second or more of delay)</li><li>feels unreliable (sometimes does not show up at all)</li></ul> |
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | very good (7 / 10) | great (8 / 10) |
