@@ -341,6 +341,8 @@ https://flow.org/try/#0PQKgBAAgZgNg9gdzCYAoVxhngEwIYDOAFsAJYEBypMYUArgHYDGALqXA6
 
 ### TypeScript
 
+Type-narrowing funtions are called type guard functions in TypeScript.
+
 ```ts
 function isNil<T>(value: T | null): value is null {
   return value == null;
