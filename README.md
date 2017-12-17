@@ -400,6 +400,57 @@ type MappedType = {
 };
 ```
 
+## Function and method overloading
+
+### Flow
+
+It is possible to declare multiple signatures for the same method (also called: overloading). This feature is undocumented, and only available in type declarations (`.js.flow` files or module statements), not inline/alongside your code.
+
+```js
+declare function add(x: string, y: string): string;
+declare function add(x: number, y: number): number;
+
+declare class Adder {
+  add(x: string, y: string): string;
+  add(x: number, y: number): number;
+}
+```
+
+However, it's possible to create function overloads inline for functions outside of classes, by using additional declarations.
+
+```js
+declare function add(x: string, y: string): string;
+declare function add(x: number, y: number): number;
+function add(x, y) {
+  return x + y;
+}
+
+add(1, 1); // Ok
+add("1", "1"); // Ok
+add(1, "1"); // Error
+```
+
+### TypeScript
+
+TypeScript supports both function and method overloading, in both: type definitions (`.d.ts`) and inline alongside code.
+
+```ts
+class Adder {
+  add(x: string, y: string): string;
+  add(x: number, y: number): number;
+  add(x, y) {
+    return x + y;
+  }
+}
+
+
+function add(x: string, y: string): string;
+function add(x: number, y: number): number;
+function add(x, y) {
+  return x + y;
+}
+```
+
 ## Read-only Types
 
 ### Flow
