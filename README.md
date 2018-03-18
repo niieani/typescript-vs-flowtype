@@ -5,8 +5,11 @@ In this document I've tried to compile the list of differences and similarities 
 
 ## Disclaimer
 
-This might be incomplete and/or contain mistakes.
-I'm open to contributions and comments.
+*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 2.6** and **Flow 0.65**.*
+
+*I'm maintaining it in my spare time, so if you find mistakes, or learn about latest additions to either project, please help keep this repo up-to-date by contributing and [editing this page](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md).*
+
+*Thanks!*
 
 # Differences in usage and usability
 
