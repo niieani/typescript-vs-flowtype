@@ -87,6 +87,14 @@ function f(x: number | undefined) { }
 function f(x?: number | undefined) { }
 ```
 
+Optional properties implicitly add `undefined`
+
+```ts
+class A {
+  foo?: string;
+}
+```
+
 ## type casting
 
 ### Flow
@@ -159,7 +167,7 @@ TypeScript is more strict here, in that if you want to use a property which is n
 ```js
 type ExactUser = { name: string, age: number };
 type User = { name: string, age: number, [otherProperty: string]: any };
-type OptionalUser = Partial<{ name: string, age: number }>; // all properties become optional
+type OptionalUser = Partial<ExactUser>; // all properties become optional
 ```
 
 ### Reference
@@ -206,6 +214,9 @@ type GuitarT = typeof jimiguitar;
 ```
 
 ## Accessing the type of a Class
+
+Classes are typed, so you don't need to define an explicit type for them.
+If you want to reference the type, you can do it the following way:
 
 ### Flow
 
@@ -379,7 +390,15 @@ Reference: https://github.com/facebook/flow/commit/ac7d9ac68acc555973d495f0a3f1f
 
 ### TypeScript
 
-[Work in progress](https://github.com/Microsoft/TypeScript/issues/6606).
+`ReturnType` utility type:
+
+```ts
+type fn1<T> = (a: T) => T;
+
+type E = ReturnType<fn1<number>>;
+
+var e: E; // E is number
+```
 
 ## Mapped Types / Foreach Property
 
@@ -509,6 +528,45 @@ function returnsImpossible() {
 // type of returnsImpossible() is 'never'
 ```
 
+## Difference types
+
+### Flow
+
+```js
+type C = $Diff<{ a: string, b: number }, { a: string }>
+// C is { b: number}
+```
+
+Note however that $Diff is not an official feature. 
+
+> It only works properly as lower bound, i.e. you can assign something to it, but can't use it after that.
+
+([source](https://github.com/facebook/flow/issues/3541#issuecomment-289291932)]
+
+### Typescript
+
+You can define your own filter type, but it does not have a helper type for that.
+
+```ts
+class A {
+  a: string;
+  b: number;
+}
+
+class B {
+  a: string;
+  c: boolean;
+}
+
+type Omit<T, U> = Pick<T, Exclude<keyof T, keyof U>>;
+//  
+
+type C = Omit<A, B>;
+// C is { b: number }
+```
+
+However, Flow implementation is stricter in this case, as B have a property that A does not have, it would rise an error. In Typescript, however, they would be ignored. 
+
 # Same syntax
 
 Most of the syntax of Flow and TypeScript is the same. TypeScript is more expressive for certain use-cases (advanced mapped types with keysof, readonly properties), and Flow is more expressive for others (e.g. `$Diff`).
@@ -529,7 +587,7 @@ In TypeScript, you can create more complex behaviors, like this:
 
 ```ts
 function makeTgenerator<T>() {
-  return function(next : () => T) {
+  return function(next: () => T) {
     const something = next();
     return something;
   }
@@ -580,22 +638,60 @@ function processEntity(e?: Entity) {
 }
 ```
 
-# Flow-only concepts
+## Conditional Typing
 
-## Difference types
-
-```js
-type C = $Diff<{ a: string, b: number }, { a: string }>
-// C is { b: number}
+```ts
+type XorY<T, U> = T extends U ? X : Y;
 ```
 
-Note however that $Diff is not an official feature. 
+This alone, introduces new helper types, or types aliases.
 
-> It only works properly as lower bound, i.e. you can assign something to it, but can't use it after that.
+```ts
+type Exclude<T, U> = T extends U ? never : T;
 
-([source](https://github.com/facebook/flow/issues/3541#issuecomment-289291932)]
+/**
+ * Extract from T those types that are assignable to U
+ */
+type Extract<T, U> = T extends U ? T : never;
 
-TypeScript has a [proposal](https://github.com/Microsoft/TypeScript/issues/12215) for an equivalent.
+/**
+ * Exclude null and undefined from T
+ */
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+/**
+ * Obtain the return type of a function type
+ */
+type ReturnType<T extends (...args: any[]) => any> =
+    T extends (...args: any[]) => infer R ? R : any;
+```
+
+## Mapped Type Modifiers
+
+You can use `+` and `-` operators to modify mapped types.
+
+```ts
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+}
+
+interface Foo {
+  readonly abc: number;
+}
+
+// 'abc' is no longer read-only.
+type TotallyMutableFoo = Mutable<Foo>
+```
+
+### Helper type modifiers
+
+`Required` is a type mapper to make all properties of an object to be required.
+
+`Partial` is a type mapper to make all properties of an object to be optional.
+
+`Readonly` is a type mapper to make all properties of an object to be readonly.
+
+# Flow-only concepts
 
 ## Inferred existential types
 
