@@ -66,7 +66,7 @@ https://flow.org/blog/2015/03/12/Bounded-Polymorphism/
 ```js
 let a: ?string
 
-// equvalent to:
+// equivalent to:
 
 let a: string | null | void
 ```
@@ -281,7 +281,7 @@ type A = {
   thing: string
 }
 
-// when the property is a string contant use $PropertyType (i.e. you know it when typing)
+// when the property is a string constant use $PropertyType (i.e. you know it when typing)
 type lookedUpThing = $PropertyType<A, 'thing'>
 
 // when you want the property to be dynamic use $ElementType (since Flow 0.49)
@@ -345,7 +345,7 @@ Reference:
 
 ### TypeScript
 
-Type-narrowing funtions are called type guard functions in TypeScript.
+Type-narrowing functions are called type guard functions in TypeScript.
 
 ```ts
 function isNil<T>(value: T | null): value is null {
