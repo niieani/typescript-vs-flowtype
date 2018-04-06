@@ -81,7 +81,9 @@ Optional parameters [implicitly add `undefined`](https://github.com/Microsoft/Ty
 
 ```ts
 function f(x?: number) { }
-// same as:
+// is semantically the same as:
+function f(x: number | undefined) { }
+// and also same as (the `| undefined` is redundant):
 function f(x?: number | undefined) { }
 ```
 
