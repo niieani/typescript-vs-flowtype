@@ -541,7 +541,7 @@ Note however that $Diff is not an official feature.
 
 > It only works properly as lower bound, i.e. you can assign something to it, but can't use it after that.
 
-([source](https://github.com/facebook/flow/issues/3541#issuecomment-289291932)]
+([source](https://github.com/facebook/flow/issues/3541#issuecomment-289291932))
 
 ### Typescript
 
