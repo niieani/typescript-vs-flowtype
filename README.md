@@ -21,11 +21,14 @@ In this document I've tried to compile the list of differences and similarities 
 | autocomplete | <ul><li>both during declaration and usage</li><li>feels instantaneous</li><li>feels reliable</li></ul> | <ul><li>[only for usage](https://github.com/facebook/flow/issues/3074)</li><li>feels sluggish (often a second or more of delay)</li><li>feels unreliable (sometimes does not show up at all)</li></ul> |
 | expressiveness | great (since TS @ 2.1) | great |
 | type safety | very good (7 / 10) | great (8 / 10) |
-| specifying generic parameters during call-time | yes [e.g.](http://www.typescriptlang.org/play/#src=function%20someFactory%3CT%3E()%20%7B%0D%0A%20%20return%20class%20%7B%0D%0A%20%20%20%20method(someParam%20%3A%20T)%20%7B%0D%0A%20%20%20%20%20%20%0D%0A%20%20%20%20%7D%0D%0A%20%20%7D%0D%0A%7D%0D%0A%0D%0A%2F%2F%20how%20to%20invoke%20this%20factory%20with%20a%20defined%20%3CT%3E%3F%0D%0A%0D%0Aconst%20SomeClass%20%3D%20someFactory%3C%7B%20whatever%3A%20string%20%7D%3E()%0D%0Aconst%20someInstance%20%3D%20new%20SomeClass()%0D%0AsomeInstance.method('will-error-here')%0D%0A) | no |
+| specifying generic parameters during call-time (`f<T>(x)`) | yes [e.g.](http://www.typescriptlang.org/play/#src=function%20someFactory%3CT%3E()%20%7B%0D%0A%20%20return%20class%20%7B%0D%0A%20%20%20%20method(someParam%20%3A%20T)%20%7B%0D%0A%20%20%20%20%20%20%0D%0A%20%20%20%20%7D%0D%0A%20%20%7D%0D%0A%7D%0D%0A%0D%0A%2F%2F%20how%20to%20invoke%20this%20factory%20with%20a%20defined%20%3CT%3E%3F%0D%0A%0D%0Aconst%20SomeClass%20%3D%20someFactory%3C%7B%20whatever%3A%20string%20%7D%3E()%0D%0Aconst%20someInstance%20%3D%20new%20SomeClass()%0D%0AsomeInstance.method('will-error-here')%0D%0A) | yes (since Flow 0.72) |
 | specifying generic parameters for type definitions | yes | yes |
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
 | type spread operator | [work in progress](https://github.com/Microsoft/TypeScript/pull/13470) | [shipped](https://github.com/facebook/flow/commit/ad443dc92879ae21705d4c61b942ba2f8ad61e4d) >=0.42 |
+| support for nullish coalescing proposal | no | yes |
+| support for decorators proposal | yes, legacy proposal | only parsing of legacy proposal, no type-checking |
+| support for extending built-in types | yes | no |
 | userland plugins | [basic](https://github.com/Microsoft/TypeScript/issues/6508), not effecting emitting yet (planned) | no |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 | documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | <ul><li>incomplete, often vague docs</li><ul> |
@@ -623,15 +626,22 @@ Most of the syntax of Flow and TypeScript is the same. TypeScript is more expres
 
 ### Flow and TypeScript
 
+The syntax in either tool is the same - question mark: `?` suffixing the parameter name:
+
 ```js
 function(a?: string) {}
 ```
 
-# TypeScript-only concepts
-
 ## call-time generic parameters
 
-In TypeScript, you can create more complex behaviors, like this:
+In TypeScript and Flow (since version 0.72) you may use specify
+the type of a generic when calling the generic function or the constructor.
+
+```ts
+const set = new Set<string>();
+```
+
+Or using a more complex behavior:
 
 ```ts
 function makeTgenerator<T>() {
@@ -645,9 +655,7 @@ const usage = makeTgenerator<string>()
 // 'usage' is of type: (next: () => string) => string
 ```
 
-#### Flow
-
-In Flow it is possible to define generic functions similarly to the above example, but only if one of the parameters or its return type is inferrable to the desired generic type, i.e. you cannot call any method/constructor using a custom `T`.
+# TypeScript-only concepts
 
 ## Declarable arbitrary `this` in functions (outside of objects)
 
