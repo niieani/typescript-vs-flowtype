@@ -5,7 +5,7 @@ In this document I've tried to compile the list of differences and similarities 
 
 ## Disclaimer
 
-*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 2.6** and **Flow 0.65**.*
+*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.0** and **Flow 0.65**.*
 
 *I'm maintaining it in my spare time, so if you find mistakes, or learn about latest additions to either project, please help keep this repo up-to-date by contributing and [editing this page](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md).*
 
@@ -212,6 +212,54 @@ type GuitarT = typeof jimiguitar;
 import {jimiguitar} from "./User";
 type GuitarT = typeof jimiguitar;
 ```
+
+## Restrictive type
+
+When you don't know a type, commonly you would use `any` type. A restrictive type accepts anything, like `any` but in order to use that variable you must ensure values type by refining it.
+
+### Flow
+
+`mixed`
+
+```js
+function stringifyNum(num: number) {
+  // Do stuff
+}
+
+function stringify(value: mixed) {
+  if (typeof value === 'string') {
+    return '' + value; // Works!
+  }
+  if (typeof value === 'number') {
+    return stringifyNum(value); // Works!
+  }
+  return '';
+}
+```
+
+Reference: https://flow.org/en/docs/types/mixed/
+
+### Typescript
+
+`unknown`
+
+```ts
+function stringifyNum(num: number) {
+  // Do stuff
+}
+
+function stringify(value: unknown) {
+  if (typeof value === 'string') {
+    return '' + value; // Works!
+  }
+  if (typeof value === 'number') {
+    return stringifyNum(value); // Works!
+  }
+  return '';
+}
+```
+
+Reference: https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#new-unknown-top-type
 
 ## Accessing the type of a Class
 
@@ -716,16 +764,6 @@ function getLength(o: {+p: ?string}): number {
 [TypeScript proposal](https://github.com/Microsoft/TypeScript/issues/10717)
 
 Bivariance is among [the design decisions](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant) driving TypeScript.
-
-## Flow's "mixed" type
-
-The TypeScript equivalent of the `mixed` type is simply:
-
-```ts
-type mixed = {}
-```
-
-Reference: https://flow.org/en/docs/types/mixed/
 
 ## Useful References
 
