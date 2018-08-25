@@ -35,6 +35,7 @@ In this document I've tried to compile the list of differences and similarities 
 | error quality | good | good in some, vague in other cases |
 | transparency | meeting notes, leadership reasoning and roadmap happens mostly publicly | low transparency, roadmap developed behind closed doors |
 | commercial support | no | no |
+| size (latest version) | [![typescript size](https://packagephobia.now.sh/badge?p=typescript)](https://packagephobia.now.sh/result?p=typescript) | [![flow-bin size](https://packagephobia.now.sh/badge?p=flow-bin)](https://packagephobia.now.sh/result?p=flow-bin) |
 
 # Differences in syntax
 
