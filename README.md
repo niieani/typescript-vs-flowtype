@@ -35,6 +35,7 @@ In this document I've tried to compile the list of differences and similarities 
 | error quality | good | good in some, vague in other cases |
 | transparency | meeting notes, leadership reasoning and roadmap happens mostly publicly | low transparency, roadmap developed behind closed doors |
 | commercial support | no | no |
+| nominal and structural typing | [structural](https://www.typescriptlang.org/docs/handbook/type-compatibility.html) | mostly [structural](https://flow.org/en/docs/lang/nominal-structural/), nominal for [classes](https://flow.org/en/docs/lang/nominal-structural/#toc-classes-are-nominally-typed) and [imported opaque type aliases](https://flow.org/en/docs/types/opaque-types/#toc-outside-the-defining-file) |
 | utility size (*not* emitted JavaScript) (latest version) | [![typescript size](https://packagephobia.now.sh/badge?p=typescript)](https://packagephobia.now.sh/result?p=typescript) | [![flow-bin size](https://packagephobia.now.sh/badge?p=flow-bin)](https://packagephobia.now.sh/result?p=flow-bin) |
 
 # Differences in syntax
