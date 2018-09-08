@@ -5,7 +5,7 @@ In this document I've tried to compile the list of differences and similarities 
 
 ## Disclaimer
 
-*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.0** and **Flow 0.79.1**.*
+*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.0** and **Flow 0.80**.*
 
 *I'm maintaining it in my spare time, so if you find mistakes, or learn about latest additions to either project, please help keep this repo up-to-date by contributing and [editing this page](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md).*
 
@@ -186,6 +186,8 @@ type OptionalUser = Partial<ExactUser>; // all properties become optional
 
 ```js
 import type {UserID, User} from "./User.js";
+// equivalent:
+import {type UserID, type User} from "./User.js";
 ```
 
 ### TypeScript
@@ -204,6 +206,11 @@ Works the same in both cases, however Flow has an additional syntax to directly 
 
 ```js
 import typeof {jimiguitar as GuitarT} from "./User";
+
+// OR
+
+import {typeof jimiguitar} from "./User.js";
+type GuitarT = jimiguitar;
 
 // OR (below also works in TypeScript)
 
@@ -275,9 +282,10 @@ If you want to reference the type, you can do it the following way:
 
 ```js
 class Test {};
-type TestType = Class<Test>;
-// This should be equivalent to (if you can confirm, please send a PR):
 type TestType = typeof Test;
+
+const instance = new Test();
+type TestTypeFromInstance = Class<typeof instance>;
 ```
 
 ### TypeScript
