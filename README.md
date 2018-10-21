@@ -767,7 +767,7 @@ type TotallyMutableFoo = Mutable<Foo>
 Array<*>
 ```
 
-TypeScript has a proposal for an equivalent (needs link).
+[TypeScript proposal](https://github.com/Microsoft/TypeScript/pull/26349)
 
 ## Variance
 
