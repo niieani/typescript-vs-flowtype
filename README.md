@@ -155,7 +155,7 @@ declare module "*.css" {
 
 ## Exact/Partial Object Types
 
-By default objects in Flow are not exact (can contain more properties than declared), whereas in TypeScript they are always exact (must contain only declared properties).
+By default objects in Flow are not exact, i.e. they can contain more properties than declared, whereas in TypeScript they are always exact (must contain only declared properties). In [future versions](https://medium.com/flow-type/on-the-roadmap-exact-objects-by-default-16b72933c5cf) Flow plans to change this and make objects exact by default.
 
 ### Flow
 
