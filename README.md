@@ -25,7 +25,7 @@ In this document I've tried to compile the list of differences and similarities 
 | specifying generic parameters for type definitions | yes | yes |
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*`</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
-| type spread operator | [work in progress](https://github.com/Microsoft/TypeScript/pull/13470) | [shipped](https://github.com/facebook/flow/commit/ad443dc92879ae21705d4c61b942ba2f8ad61e4d) >=0.42 |
+| type spread operator | [shipped](https://github.com/Microsoft/TypeScript/pull/28234) > 3.2rc | [shipped](https://github.com/facebook/flow/commit/ad443dc92879ae21705d4c61b942ba2f8ad61e4d) >=0.42 |
 | support for nullish coalescing proposal | no | yes |
 | support for decorators proposal | yes, legacy proposal | only parsing of legacy proposal, no type-checking |
 | support for extending built-in types | yes | no |
