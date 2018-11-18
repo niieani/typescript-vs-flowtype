@@ -5,13 +5,15 @@ In this document I've tried to compile the list of differences and similarities 
 
 ## Disclaimer
 
-*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.0** and **Flow 0.80**.*
+*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.2** and **Flow 0.86**.*
 
 *I'm maintaining it in my spare time, so if you find mistakes, or learn about latest additions to either project, please help keep this repo up-to-date by contributing and [editing this page](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md).*
 
 *Thanks!*
 
 # Differences in usage and usability
+
+Some of these differences are subjective (e.g. error readability), and I'd love to make this as scientific as possible — so please [contribute](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md) to make it better. :)
 
 |   | TypeScript            | Flow |
 |---|------------------|--------|
@@ -32,7 +34,7 @@ In this document I've tried to compile the list of differences and similarities 
 | userland plugins | [basic](https://github.com/Microsoft/TypeScript/issues/6508), not effecting emitting yet (planned) | no |
 | programmatic hooking | architecture prepared, work in progress | work in progress |
 | documentation and resources | <ul><li>very good docs</li><li>many books</li><li>videos</li><li>e-learning resources</li></ul> | <ul><li>incomplete, often vague docs</li><ul> |
-| error quality | good | good in some, vague in other cases |
+| ease-of-understanding of errors | good | good in some, vague in other cases |
 | transparency | meeting notes, leadership reasoning and roadmap happens mostly publicly | low transparency, roadmap developed behind closed doors |
 | commercial support | no | no |
 | nominal and structural typing | [structural](https://www.typescriptlang.org/docs/handbook/type-compatibility.html) | mostly [structural](https://flow.org/en/docs/lang/nominal-structural/), nominal for [classes](https://flow.org/en/docs/lang/nominal-structural/#toc-classes-are-nominally-typed) and [imported opaque type aliases](https://flow.org/en/docs/types/opaque-types/#toc-outside-the-defining-file) |
