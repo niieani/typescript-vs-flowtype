@@ -16,7 +16,7 @@ In this document I've tried to compile the list of differences and similarities 
 |   | TypeScript            | Flow |
 |---|------------------|--------|
 | Leading Design Goal / North Star | identify errors in programs through [a balance between correctness and productivity](https://github.com/Microsoft/TypeScript/wiki/TypeScript-Design-Goals) | enforce type soundness / safety |
-| IDE integrations | top-notch | sketchy, must save file to run type-check; some IDEs have workarounds to run real-time |
+| IDE integrations | top-notch: language server, built-in refactorings, type and typedoc information on hover, snappy go-to-definition | language server is a work in progress, some IDEs use the CLI and require saving the file to run the type-check, refactorings in alpha, only type information on hover, sketchy go-to-definition |
 | type-checking speed (excluding transpilation) | [benchmarks needed](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md) | [benchmarks needed](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md), [in-depth description <img width="439" title="numberOfFiles · O( (LoCperFile + SizeOfTypesOfExports) ^ k )" alt="numberOfFiles · O( (LoCperFile + SizeOfTypesOfExports) ^ k )" src="https://user-images.githubusercontent.com/563469/31196357-c02ca3e4-a94d-11e7-9292-f92e10091ac7.png"> ](https://youtu.be/WgvAPzOmiP0?t=616) |
 | autocomplete | <ul><li>both during declaration and usage</li><li>feels instantaneous</li><li>feels reliable</li></ul> | <ul><li>[only for usage](https://github.com/facebook/flow/issues/3074)</li><li>feels sluggish (often a second or more of delay)</li><li>feels unreliable (sometimes does not show up at all)</li></ul> |
 | expressiveness | great (since TS @ 2.1) | great |
