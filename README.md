@@ -38,6 +38,7 @@ Some of these differences are subjective (e.g. error readability), and I'd love 
 | transparency | meeting notes, leadership reasoning and roadmap happens mostly publicly | low transparency, roadmap developed behind closed doors |
 | commercial support | no | no |
 | nominal and structural typing | [structural](https://www.typescriptlang.org/docs/handbook/type-compatibility.html) | mostly [structural](https://flow.org/en/docs/lang/nominal-structural/), nominal for [classes](https://flow.org/en/docs/lang/nominal-structural/#toc-classes-are-nominally-typed) and [imported opaque type aliases](https://flow.org/en/docs/types/opaque-types/#toc-outside-the-defining-file) |
+| dynamic import types | `import('module-name')` since [2.9](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#import-types) | undocumented `$Exports<'module-name'>` |
 | utility size (*not* emitted JavaScript) (latest version) | [![typescript size](https://packagephobia.now.sh/badge?p=typescript)](https://packagephobia.now.sh/result?p=typescript) | [![flow-bin size](https://packagephobia.now.sh/badge?p=flow-bin)](https://packagephobia.now.sh/result?p=flow-bin) |
 
 # Differences in syntax
