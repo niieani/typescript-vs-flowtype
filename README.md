@@ -5,7 +5,7 @@ In this document I've tried to compile the list of differences and similarities 
 
 ## Disclaimer
 
-*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.2** and **Flow 0.86**.*
+*This document might be incomplete and/or contain mistakes and was last updated to describe **TypeScript 3.5.1** and **Flow 0.101**.*
 
 *I'm maintaining it in my spare time, so if you find mistakes, or learn about latest additions to either project, please help keep this repo up-to-date by contributing and [editing this page](https://github.com/niieani/typescript-vs-flowtype/edit/master/README.md).*
 
@@ -401,9 +401,17 @@ Reference:
 
 ## Type-narrowing functions
 
-### Flow
+These are functions that return a boolean, performing some logic to assert that a given input parameter is of a certain type.
 
-Note: undocumented syntax, may change:
+The implementations differ between Flow and TypeScript:
+
+In TypeScript, it ensures the mapping between: `true` and `value is T`, versus in the case of Flow, it ensures the value is "checked" against the logic within the body of the function (i.e. things like `typeof`, `instanceof`, `value === undefined`). 
+
+This means you cannot tell Flow that the tested parameter is of an arbitrary type, which closes the door to complex cases, e.g.:
+- reusing logic from a different function
+- library definitions, where there is no body at all (it is possible to specify the body in the declaration, however you are still limited by the type of assertions you may specify)
+
+### Flow
 
 ```js
 function isNil(value: mixed): boolean %checks {
@@ -419,6 +427,12 @@ if (!isNil(thing)) {
 
 Reference:
 - [flow/try](https://flow.org/try/#0PQKgBAAgZgNg9gdzCYAoVxhngEwIYDOAFsAJYEBypMYUArgHYDGALqXA6vc2x2OVRgAKAG54YdAKYAuMAFtSAD0k4AlLIBGcODEl4GYAKRMikpgGsCYAN6owYAE6SWdBwbETJYALzewDOhgYAG5UAF90Jg4CFjAWIlIGAHMff0CQ9FIoMCEAQgFqIXjEpNVVGzswKIYYsH04eMkHVOLkgDoCODlnBOTQiKA)
+
+## Caveats
+
+The current implementation in Flow is incomplete, which means you [cannot](https://github.com/facebook/flow/issues/4723#issuecomment-408412026) yet use `%checks` in class methods.
+
+Example showing the limitation in the respective playgrounds: [TypeScript](https://typescript-play.js.org/#code/C4TwDgpgBAEgrgWwIYDsoF4oG8BQV9QpIIQBcUAzsAE4CWKA5gDR4EVzVEnlV2MsBfHDgBmcFAGNgtAPZoIKdtQjxkKABT0wcYFHKoQASj1QtO0xViJU2VvmXAOaUJBkjTKbbvQ+oAchkAIwArCCk-OwJ8ADJo-y4IPw8PL0io2P8lBKT6FJ00ggyXCDc84AA6BIxfP156Bgio9Lji0rMKrOJoH0xamnqIoRwJOSooJGpqJBAAeRFVVAoAQRQAEwA5RECIaktMAG1IrATyPwBRABs5PyZKJy7TgFk4CgBrPwEWKIBGACYAZhYAF1hCNFLoJlNZvNrIoMONJtM5gtFCsNlsdhRyiJaBdgDt1AolCpYYZhAB6clQYAAC1olnplCQIggt22EiQL2gAHdoK8UDJudSaTtoBNoHILiAoDTYZYRcpSDhIUiYWoKPsAAxAypdClUgC0RuNUEpoNGullahm1E2CG21HhKuhKOWaztDo1kUeSFp2KuMmo6gK+B9fqmaxkCHUxgAVAioci5WiPZjyhcFAxaZEySCcLR3ITFBwSWp1FbUDbU9RDMZcPhKcLGYyKMzWVB2ZyKDy+QKhbTGTSkJZgDIO2KZbCO9KB5YwDJ6MBWBWUFWMdRdSQcAIoBALt3bA2qbOLFBxK2WWywl2e1B+YLhdAcXvVjLh9Sx9txoR19Om3OFxQYAlXwFc13tHZNwgbcgA) vs [Flow](https://flow.org/try/#0PTAEAEDMBsHsHcBQAXAngBwKagBIFcBbAQwDtQBeUAb0VDtBKIMwC5QBnZAJwEsSBzADS167PF0bM2nXgOEBfRIkh4SAY2Q9YZTCTFdM+YiQAUfdHmSg2pVAEproAKRqAFpjUBrdtRF0DyOJkaFiwkKDmlhTklADksABGAFYeyLF+9HQAZFmgsZKYsRFkkcgZmTl5+gVFfMUWZZkVuSGYYfWWAHQF0XEyfPzpTfSVre2lndVM2DF93APpiohq2pygRFxcRKgA8pBGpOwAgiQAJgByhAmYXD6UANoZVAVssQCicCSxghxB068AWTw7E8sXkwkyAEYAEwAZmEAF0lCs9FYNltdvtCIcKOtNts9gc9CcLlcbuxOpAeNBkDcTLp9IZsSQ7EoQKBkK4eD5uRwiJBMD9rmoiMDsPBsJ4SAgOe4DHjsNpoKhQK5mT45YLQAkogAxODwUCnWCYdhfKz8TBWHjIFiIdEErHGdj3AAMCO60zZYAAtH7-aAQMjVlY1cYdlxLgRrlxcQ7MUTjmcozGXRkAUROZS4LAuCZyvQM1mtmdYAQTA4AFR4jGE9UklPkzrQXT8TkZVlIxA8cL0vTiJnGExh0gRxtcOwOGh0dmc3m89j8rXC0XscWS6WGucaog+ZCwbXYIiq5nalXb0DoWB8Ron8ORslcT3MRDyUCYaBr3wzsAX3mqRcBSFDxV3XUApRlTlsCpD9TlVXcOQPa51gYR8z1lXkrxvO06BHEgx0fZ9MFfIA)
 
 ### TypeScript
 
