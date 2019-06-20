@@ -428,7 +428,7 @@ if (!isNil(thing)) {
 Reference:
 - [flow/try](https://flow.org/try/#0PQKgBAAgZgNg9gdzCYAoVxhngEwIYDOAFsAJYEBypMYUArgHYDGALqXA6vc2x2OVRgAKAG54YdAKYAuMAFtSAD0k4AlLIBGcODEl4GYAKRMikpgGsCYAN6owYAE6SWdBwbETJYALzewDOhgYAG5UAF90Jg4CFjAWIlIGAHMff0CQ9FIoMCEAQgFqIXjEpNVVGzswKIYYsH04eMkHVOLkgDoCODlnBOTQiKA)
 
-## Caveats
+#### Caveats
 
 The current implementation in Flow is incomplete, which means you [cannot](https://github.com/facebook/flow/issues/4723#issuecomment-408412026) yet use `%checks` in class methods.
 
