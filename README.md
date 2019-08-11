@@ -617,11 +617,20 @@ type C = $Diff<{ a: string, b: number }, { a: string }>
 // C is { b: number}
 ```
 
-Note however that $Diff is not an official feature. 
-
 > It only works properly as lower bound, i.e. you can assign something to it, but can't use it after that.
 
 ([source](https://github.com/facebook/flow/issues/3541#issuecomment-289291932))
+
+Flow also has `$Rest<>`, which represents the result of the JS object rest operator (`{ ...rest }`).
+
+```js
+type Props = { name: string, age: number };
+
+const props: Props = {name: 'Jon', age: 42};
+const {age, ...otherProps} = props;
+(otherProps: $Rest<Props, {|age: number|}>);
+otherProps.age;  // Error, since we removed it
+```
 
 ### Typescript
 
