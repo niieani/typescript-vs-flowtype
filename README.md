@@ -298,6 +298,44 @@ class Test {};
 type TestType = typeof Test;
 ```
 
+## Nominal typing
+
+Flow treats classes as nominal types, whereas TypeScript treats them as
+structural types.
+
+### Flow
+```js
+class Foo {};
+class Bar {};
+
+const foo: Foo = new Bar();
+// Cannot assign `new Bar()` to `foo` because `Bar` [1] is incompatible with `Foo` [2].
+```
+
+### TypeScript
+```ts
+class Foo {};
+class Bar {};
+
+const foo: Foo = new Bar();
+// No errors!
+```
+
+You can work around this with tricks like the following
+(`declare` only works in TypeScript >=3.7.0):
+```ts
+class Foo {
+    declare private __nominal: void;
+};
+class Bar {
+    declare private __nominal: void;
+};
+
+const foo: Foo = new Bar();
+// Type 'Bar' is not assignable to type 'Foo'.
+// Types have separate declarations of a private property '__nominal'.(2322)
+```
+
 ## Keys/Props Of Type
 
 ### Flow
