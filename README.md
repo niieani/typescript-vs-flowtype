@@ -847,6 +847,62 @@ const usage = makeTgenerator<string>()
 // 'usage' is of type: (next: () => string) => string
 ```
 
+## Comment Type
+
+Flow supports a comment-based syntax:
+
+```js
+const f = (x /*: number */, y /*: number */) /*: number */ => x + y
+```
+
+TypeScript can check types with JavaScript files annotated with JSDoc comments:
+
+```js
+// JSDoc type syntax
+/** @type {function(number, number): number} */
+const f = (x, y) => x + y
+// equivalent TypeScript type syntax
+/** @type {(x: number, y: number) => number} */
+```
+
+JSDoc's overloaded function comment syntax is not supported:
+
+```js
+/**
+ * @param {string} input
+ * @returns {string} result
+ *//**
+ * @param {number} input
+ * @returns {string} result
+ */
+function notSupported(input) { /* omit */ }
+```
+
+However, we can express [function overloading type in TypeScript's from][spec] in a tricky way:
+
+```js
+/** @type {{
+            (): void;
+            (code: 0): void;
+            (code: 1, msg: string): void
+          }} */
+const functionOverloads = (
+  /** @type {0 | 1} */ code = 0,
+  /** @type {string | undefined} */ msg = code === 0 ? undefined : ""
+) => { /* omit */ }
+```
+
+[spec]: https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#62-function-overloads
+
+However, it still lacks some features:
+
+1. There is no way to pass type parameter when invoking generic functions.
+2. TypeScript cannot parse conditional types in JSDoc comments correctly. [#27424]
+3. There is no equivalent form of `as const` assertion. [#30445]
+
+[#27424]: https://github.com/microsoft/TypeScript/issues/27424
+[#30445]: https://github.com/Microsoft/TypeScript/issues/30445
+
 # TypeScript-only concepts
 
 ## Declarable arbitrary `this` in functions (outside of objects)
