@@ -847,13 +847,17 @@ const usage = makeTgenerator<string>()
 // 'usage' is of type: (next: () => string) => string
 ```
 
-## Comment Type
+## Typing pure JS files (i.e. without transpilation)
 
-Flow supports a comment-based syntax:
+### Flow
+
+Flow supports a comment-based syntax, by encapsulating type annotations in `/* */`-style comments:
 
 ```js
 const f = (x /*: number */, y /*: number */) /*: number */ => x + y
 ```
+
+### TypeScript
 
 TypeScript can check types with JavaScript files annotated with JSDoc comments:
 
@@ -878,7 +882,7 @@ JSDoc's overloaded function comment syntax is not supported:
 function notSupported(input) { /* omit */ }
 ```
 
-However, we can express [function overloading type in TypeScript's from][spec] in a tricky way:
+However, we can express [function overloading type in TypeScript's form][spec] in a tricky way:
 
 ```js
 /** @type {{
