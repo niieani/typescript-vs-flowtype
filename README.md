@@ -967,6 +967,48 @@ function getLength(o: {+p: ?string}): number {
 
 Bivariance is among [the design decisions](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant) driving TypeScript.
 
+## Opaque Type Alias 
+
+https://flow.org/en/docs/types/opaque-types/
+
+```js
+opaque type Alias = Type;
+opaque type Alias: SuperType = Type; // with subtyping constrains
+```
+
+Within the same file the opaque type alias is defined, opaque type aliases behave exactly as type aliases.
+
+Outside the defining file, i.e. when importing an opaque type alias, it behaves like a nominal type.
+If the opaque type alias is defined with subtyping constrains, it can be used as the super type when outside the defining file.
+
+```js
+export opaque type Age: number = number;
+
+function newAge(age: number): Age {
+    return age; // ok within same file, not ok outside defining file
+}
+
+function incAge(age: Age): number {
+    return age + 1; // ok
+}
+```
+
+TypeScript dose not have opaque type, but we can define an utility type with intersection type
+to mimic the behavior of Flow's opaque type alias with subtyping constrains used outside the defining file.
+
+```ts
+type Opaque<T, U> = U & { readonly __TYPE__: T }
+type Age = Opaque<'age', number>
+
+function newAge(age: number): Age {
+    return age; // not ok
+}
+
+function incAge(age: Age): number {
+    return age + 1; // ok
+}
+```
+
 ## Useful References
 
 * https://github.com/Microsoft/TypeScript/issues/1265
