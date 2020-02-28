@@ -27,7 +27,7 @@ Some of these differences are subjective (e.g. error readability), and I'd love 
 | specifying generic parameters for type definitions | yes | yes |
 | typings for public libraries | plenty of well maintained typings | a handful of mostly incomplete typings |
 | unique features | <ul><li>autocomplete for object construction</li><li>declarable `this` in functions (typing `someFunction.bind()`)</li><li>large library of typings</li><li>more flexible [type mapping via iteration](https://github.com/Microsoft/TypeScript/pull/12114)</li><li>namespacing</li></ul> | <ul><li>variance</li><li>existential types `*` (deprecated since 0.72)</li><li>testing potential code-paths when types not declared for maximum inference</li><li>`$Diff<A, B>` type</li></ul> |
-| type spread operator | [shipped](https://github.com/Microsoft/TypeScript/pull/28234) > 3.2rc | [shipped](https://github.com/facebook/flow/commit/ad443dc92879ae21705d4c61b942ba2f8ad61e4d) >=0.42 |
+| type spread operator | no ([planned](https://github.com/microsoft/TypeScript/issues/10727)) | [shipped](https://github.com/facebook/flow/commit/ad443dc92879ae21705d4c61b942ba2f8ad61e4d) >=0.42 |
 | support for nullish coalescing proposal | [shipped](https://github.com/microsoft/TypeScript/pull/32883) > 3.7beta | yes |
 | support for decorators proposal | yes, legacy proposal | only parsing of legacy proposal, no type-checking |
 | support for extending built-in types | yes | no |
@@ -1068,6 +1068,24 @@ function incAge(age: Age): number {
     return age + 1; // ok
 }
 ```
+
+## Object type spread
+
+Object type spread acts as [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) but for types. Unlike [intersection types](https://flow.org/en/docs/types/intersections/) type spreads work with exact object types and overwrite existing properties.
+
+```js
+type Foo = {| foo: string, bar: string |}
+type Bar = {| bar: number |}
+
+type FooBarIntersection = Foo & Bar
+type FooBarSpread = {| ...Foo, ...Bar |}
+
+const fooBarInterect: FooBarIntersection = { foo: '123', bar: 12 } // not ok
+const fooBarString: FooBarSpread = { foo: '123', bar: 'string' } // not ok
+const fooBar: FooBarSpread = { foo: '123', bar: 12 } // ok
+```
+
+While TypeScript does understand object spread, the support for object type spread is [not implemented](https://github.com/microsoft/TypeScript/issues/10727).
 
 ## Useful References
 
